@@ -6,8 +6,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from google import genai
 
 # Tokens from Render
-9194333229:AAGuugJ5e8G_4c3AVGpaiwkR1rXH3IkPUMM
-AQ.Ab8RN6I5m13OgmBVt61JYWWgNx68ZwTHYGqWMoFcE015vlE7NQ
+BOT_TOKEN = "9194333229:AAGuugJ5e8G_4c3AVGpaiwkR1rXH3L7Y..."
+GEMINI_API_KEY = "AQ.Ab8RN6I5m130gmBVt61JYWWgNx68ZwTHYGqWM..."
 app = Flask(__name__)
 
 @app.route('/')
