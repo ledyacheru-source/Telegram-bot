@@ -5,7 +5,7 @@ from google import genai
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, CommandHandler, ContextTypes, filters
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "91943...የእርስዎን ሙሉ Token")
+9194333229:AAGuugJ5e8G_4c3AVGpaiwkR1rXH3IkPUMM...የእርስዎን ሙሉ Token")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AQ.Ab8...የእርስዎን AQ Key")
 
 app = Flask(__name__)
