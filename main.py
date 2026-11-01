@@ -6,9 +6,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from google import genai
 
 # Tokens from Render
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
+9194333229:AAGuugJ5e8G_4c3AVGpaiwkR1rXH3IkPUMAQ.Ab8RN6KMeNKteWYf5Ukm3g-CP7N7l9_JzdXNH82M6O0d21YJCg
+AQ.Ab8RN6KMeNKteWYf5Ukm3g-CP7N7l9_JzdXNH82M6O0d21YJCg
 client = genai.Client(api_key=GEMINI_API_KEY)
 app = Flask(__name__)
 
