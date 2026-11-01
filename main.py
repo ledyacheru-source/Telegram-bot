@@ -5,9 +5,9 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from google import genai
 
-# Tokens
-BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
-GEMINI_API_KEY = "YOUR_GEMINI_KEY_HERE"
+# Tokens from Render
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 client = genai.Client(api_key=GEMINI_API_KEY)
 app = Flask(__name__)
@@ -17,7 +17,7 @@ def home():
     return "Bot is Running!"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("ሰላም ሊድያ! እኔ AI Botሽ ነኝ 🤖")
+    await update.message.reply_text("ሰላም! እኔ ሎይዴ ነኝ! 🙏")
 
 async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
@@ -28,7 +28,7 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         await update.message.reply_text(response.text)
     except Exception as e:
-        await update.message.reply_text(f"ይቅርታ ስህተት ተከስቷል: {e}")
+        await update.message.reply_text(f"ችግር: {e}")
 
 def run_bot():
     application = Application.builder().token(BOT_TOKEN).build()
@@ -38,4 +38,5 @@ def run_bot():
 
 if __name__ == "__main__":
     threading.Thread(target=run_bot).start()
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
