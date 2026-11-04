@@ -1,4 +1,7 @@
-from flask import Flask, requestfrom flask import Flask, request
+from flask import Flask, request
+import requests
+import os
+app = Flask(__name__)
 import requests
 import os
 app = Flask(__name__)
