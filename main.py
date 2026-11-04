@@ -2,9 +2,9 @@ from flask import Flask, request
 import requests
 import os
 app = Flask(__name__)
-import requests
-import os
-app = Flask(__name__)
+
+
+
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 GROQ_KEY = os.getenv("GROQ_KEY")
 
