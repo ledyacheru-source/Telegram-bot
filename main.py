@@ -1,42 +1,37 @@
-from flask import Flask
-import threading
+from flask import Flask, request
+import requests
 import os
-from google import genai
-from telegram import Update
-from telegram.ext import ApplicationBuilder, MessageHandler, CommandHandler, ContextTypes, filters
-
-9194333229:AAGuugJ5e8G_4c3AVGpaiwkR1rXH3IkPUMM...የእርስዎን ሙሉ Token")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AQ.Ab8...የእርስዎን AQ Key")
 
 app = Flask(__name__)
-client = genai.Client(api_key=GEMINI_API_KEY)
+
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+GROQ_KEY = os.environ.get("GROQ_KEY")
 
 @app.route('/')
 def home():
-    return "Bot is Running!"
+    return "Demeku Bot Live"
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("ሰላም! እኔ ዝግጁ ነኝ!")
+@app.route('/', methods=['POST'])
+def webhook():
+    data = request.get_json()
+    if data and 'message' in data:
+        chat_id = data['message']['chat']['id']
+        text = data['message'].get('text', '')
+        try:
+            headers = {"Authorization": "Bearer " + GROQ_KEY}
+            payload = {
+                "model": "llama-3.1-8b-instant",
+                "messages": [{"role": "user", "content": text}]
+            }
+            r = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=20)
+            reply = r.json()['choices'][0]['message']['content']
+        except Exception as e:
+            reply = "እንደገና ንገረኝ, " + str(e)
+        requests.post("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", json={"chat_id": chat_id, "text": reply})
+    return "ok"
 
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    try:
-        user_text = update.message.text
-        response = client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=user_text
-        )
-        await update.message.reply_text(response.text)
-    except Exception as e:
-        await update.message.reply_text(f"Error: {e}")
-        print(f"Gemini Error: {e}")
-
-def run_bot():
-    app_bot = ApplicationBuilder().token(BOT_TOKEN).build()
-    app_bot.add_handler(CommandHandler("start", start))
-    app_bot.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-    app_bot.run_polling()
-
-threading.Thread(target=run_bot).start()
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+@app.route('/setwebhook')
+def sethook():
+    url = "https://" + request.host + "/"
+    r = requests.get("https://api.telegram.org/bot" + BOT_TOKEN + "/setWebhook", params={"url": url})
+    return r.text
