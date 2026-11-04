@@ -29,3 +29,4 @@ def webhook():
 def sethook():
     url = "https://" + request.host + "/"
     return requests.get("https://api.telegram.org/bot" + BOT_TOKEN + "/setWebhook", params={"url": url}).text
+        
