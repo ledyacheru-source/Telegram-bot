@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 GROQ_KEY = os.environ.get("GROQ_KEY")
-GROQ_KEY = os.environ.get("GROQ_KEY")
+
 
 @app.route('/')
 def home():
